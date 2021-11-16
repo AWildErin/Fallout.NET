@@ -17,17 +17,19 @@ namespace Fallout.NET.TES4
 
         public Dictionary<string, Group> Groups => _groups;
 
+        public GameID GameId { get; private set; }
+
         public TES4Master(string filename)
         {
-            var gameID = GameID.Oblivion;
+            GameId = GameID.Oblivion;
 
             switch (Path.GetFileNameWithoutExtension(filename).ToLower())
             {
-                case "oblivion": gameID = GameID.Oblivion; break;
-                case "skyrim": gameID = GameID.Skyrim; break;
-                case "fallout3": gameID = GameID.Fallout3; break;
-                case "falloutNV": gameID = GameID.FalloutNV; break;
-                case "fallout4": gameID = GameID.Fallout4; break;
+                case "oblivion": GameId = GameID.Oblivion; break;
+                case "skyrim": GameId = GameID.Skyrim; break;
+                case "fallout3": GameId = GameID.Fallout3; break;
+                case "falloutNV": GameId = GameID.FalloutNV; break;
+                case "fallout4": GameId = GameID.Fallout4; break;
             }
 
             _groups = new Dictionary<string, Group>();
@@ -35,12 +37,12 @@ namespace Fallout.NET.TES4
             using (var reader = new BetterBinaryReader(File.OpenRead(filename)))
             {
                 var tes4 = new TES4Record();
-                tes4.Deserialize(reader, reader.ReadString(4), gameID);
+                tes4.Deserialize(reader, reader.ReadString(4), GameId);
 
                 if (tes4.Type != "TES4")
                     throw new Exception("That's not a TES4/5 compatible master file.");
 
-                Utils.LogBuffer("# Loading {0}", gameID);
+                Utils.LogBuffer("# Loading {0}", GameId);
                 Utils.LogBuffer("\t- Record: {0}", tes4.Type);
 
                 string groupName = string.Empty;
@@ -50,7 +52,7 @@ namespace Fallout.NET.TES4
                 {
                     groupName = reader.ReadString(4);
                     group = new Group();
-                    group.Deserialize(reader, groupName, gameID);
+                    group.Deserialize(reader, groupName, GameId);
 
                     if (_groups.ContainsKey(group.Label))
                         continue;
