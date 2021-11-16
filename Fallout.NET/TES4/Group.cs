@@ -128,7 +128,7 @@ namespace Fallout.NET.TES4
                 }
                 else
                 {
-                    record = Record.GetRecord(fname);
+                    record = Record.CreateRecord(fname);
                     record.Deserialize(reader, fname, gameID);
 
                     if (!_records.ContainsKey(record.Type))

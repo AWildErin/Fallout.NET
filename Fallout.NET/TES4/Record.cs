@@ -1,6 +1,9 @@
 ﻿using Fallout.NET.Core;
 using Fallout.NET.TES4.Records;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Fallout.NET.TES4
 {
@@ -15,6 +18,17 @@ namespace Fallout.NET.TES4
         protected uint unknow;
 
         protected byte[] data;
+
+        /// <summary>
+        /// FormID of the current record
+        /// </summary>
+        public string FormId { get; private set; }
+
+        /// <summary>
+        /// A list of all the current found records
+        /// </summary>
+        /// @todo: Probably move this elsewhere.
+        public static List<Record> All = new List<Record>();
 
         public string Type
         {
@@ -36,6 +50,16 @@ namespace Fallout.NET.TES4
             get { return (flags & 0x1000) != 0; }
         }
 
+        public Record()
+		{
+            All.Add(this);
+		}
+
+        ~Record()
+		{
+            All.Remove(this);
+		}
+
         public virtual void Deserialize(BetterReader reader, string name, GameID gameID)
         {
             type = name;
@@ -43,6 +67,8 @@ namespace Fallout.NET.TES4
             flags = reader.ReadUInt32();
             id = reader.ReadUInt32();
             revision = reader.ReadUInt32();
+
+            FormId = id.ToString("X");
 
             if (gameID != GameID.Oblivion)
             {
@@ -99,138 +125,93 @@ namespace Fallout.NET.TES4
             output.Flush();
         }
 
-        public static Record GetRecord(string name)
-        {
-            if (name == "ACHR")
-                return new ACHRRecord();
-            else if (name == "ACRE")
-                return new ACRERecord();
-            else if (name == "ACTI")
-                return new ACTIRecord();
-            else if (name == "ALCH")
-                return new ALCHRecord();
-            else if (name == "AMMO")
-                return new AMMORecord();
-            else if (name == "ANIO")
-                return new ANIORecord();
-            else if (name == "APPA")
-                return new APPARecord();
-            else if (name == "ARMO")
-                return new ARMORecord();
-            else if (name == "BOOK")
-                return new BOOKRecord();
-            else if (name == "BSGN")
-                return new BSGNRecord();
-            else if (name == "CELL")
-                return new CELLRecord();
-            else if (name == "CLAS")
-                return new CLASRecord();
-            else if (name == "CLMT")
-                return new CLMTRecord();
-            else if (name == "CLOT")
-                return new CLOTRecord();
-            else if (name == "CONT")
-                return new CONTRecord();
-            else if (name == "CREA")
-                return new CREARecord();
-            else if (name == "CSTY")
-                return new CSTYRecord();
-            else if (name == "DIAL")
-                return new DIALRecord();
-            else if (name == "DOOR")
-                return new DOORRecord();
-            else if (name == "EFSH")
-                return new EFSHRecord();
-            else if (name == "ENCH")
-                return new ENCHRecord();
-            else if (name == "EYES")
-                return new EYESRecord();
-            else if (name == "FACT")
-                return new FACTRecord();
-            else if (name == "FLOR")
-                return new FLORRecord();
-            else if (name == "FURN")
-                return new FURNRecord();
-            else if (name == "GLOB")
-                return new GLOBRecord();
-            else if (name == "GMST")
-                return new GMSTRecord();
-            else if (name == "GRAS")
-                return new GRASRecord();
-            else if (name == "HAIR")
-                return new HAIRRecord();
-            else if (name == "IDLE")
-                return new IDLERecord();
-            else if (name == "INFO")
-                return new INFORecord();
-            else if (name == "INGR")
-                return new INGRRecord();
-            else if (name == "KEYM")
-                return new KEYMRecord();
-            else if (name == "LAND")
-                return new LANDRecord();
-            else if (name == "LIGH")
-                return new LIGHRecord();
-            else if (name == "LSCR")
-                return new LSCRRecord();
-            else if (name == "LTEX")
-                return new LTEXRecord();
-            else if (name == "LVLC")
-                return new LVLCRecord();
-            else if (name == "LVLI")
-                return new LVLIRecord();
-            else if (name == "LVSP")
-                return new LVSPRecord();
-            else if (name == "MGEF")
-                return new MGEFRecord();
-            else if (name == "MISC")
-                return new MISCRecord();
-            else if (name == "NPC_")
-                return new NPC_Record();
-            else if (name == "PACK")
-                return new PACKRecord();
-            else if (name == "PGRD")
-                return new PGRDRecord();
-            else if (name == "QUST")
-                return new QUSTRecord();
-            else if (name == "RACE")
-                return new RACERecord();
-            else if (name == "REFR")
-                return new REFRRecord();
-            else if (name == "REGN")
-                return new REGNRecord();
-            else if (name == "ROAD")
-                return new ROADRecord();
-            else if (name == "SBSP")
-                return new SBSPRecord();
-            else if (name == "SCPT")
-                return new SCPTRecord();
-            else if (name == "SGST")
-                return new SGSTRecord();
-            else if (name == "SKIL")
-                return new SKILRecord();
-            else if (name == "SLGM")
-                return new SLGMRecord();
-            else if (name == "SOUN")
-                return new SOUNRecord();
-            else if (name == "SPEL")
-                return new SPELRecord();
-            else if (name == "STAT")
-                return new STATRecord();
-            else if (name == "TES4")
-                return new TES4Record();
-            else if (name == "TREE")
-                return new TREERecord();
-            else if (name == "WATR")
-                return new WATRRecord();
-            else if (name == "WEAP")
-                return new WEAPRecord();
-            else if (name == "WRLD")
-                return new WRLDRecord();
-            else if (name == "WTHR")
-                return new WTHRRecord();
+        public static Record CreateRecord(string name) => name switch
+		{
+            "ACHR" => new ACHRRecord(),
+            "ACRE" => new ACRERecord(),
+            "ACTI" => new ACTIRecord(),
+            "ALCH" => new ALCHRecord(),
+            "AMMO" => new AMMORecord(),
+            "ANIO" => new ANIORecord(),
+            "APPA" => new APPARecord(),
+            "ARMO" => new ARMORecord(),
+            "BOOK" => new BOOKRecord(),
+            "BSGN" => new BSGNRecord(),
+            "CELL" => new CELLRecord(),
+            "CLAS" => new CLASRecord(),
+            "CLMT" => new CLMTRecord(),
+            "CLOT" => new CLOTRecord(),
+            "CONT" => new CONTRecord(),
+            "CREA" => new CREARecord(),
+            "CSTY" => new CSTYRecord(),
+            "DIAL" => new DIALRecord(),
+            "DOOR" => new DOORRecord(),
+            "EFSH" => new EFSHRecord(),
+            "ENCH" => new ENCHRecord(),
+            "EYES" => new EYESRecord(),
+            "FACT" => new FACTRecord(),
+            "FLOR" => new FLORRecord(),
+            "FURN" => new FURNRecord(),
+            "GLOB" => new GLOBRecord(),
+            "GMST" => new GMSTRecord(),
+            "GRAS" => new GRASRecord(),
+            "HAIR" => new HAIRRecord(),
+            "IDLE" => new IDLERecord(),
+            "INFO" => new INFORecord(),
+            "INGR" => new INGRRecord(),
+            "KEYM" => new KEYMRecord(),
+            "LAND" => new LANDRecord(),
+            "LIGH" => new LIGHRecord(),
+            "LSCR" => new LSCRRecord(),
+            "LTEX" => new LTEXRecord(),
+            "LVLC" => new LVLCRecord(),
+            "LVLI" => new LVLIRecord(),
+            "LVSP" => new LVSPRecord(),
+            "MGEF" => new MGEFRecord(),
+            "MISC" => new MISCRecord(),
+            "NPC_" => new NPC_Record(),
+            "PACK" => new PACKRecord(),
+            "PGRD" => new PGRDRecord(),
+            "QUST" => new QUSTRecord(),
+            "RACE" => new RACERecord(),
+            "REFR" => new REFRRecord(),
+            "REGN" => new REGNRecord(),
+            "ROAD" => new ROADRecord(),
+            "SBSP" => new SBSPRecord(),
+            "SCPT" => new SCPTRecord(),
+            "SGST" => new SGSTRecord(),
+            "SKIL" => new SKILRecord(),
+            "SLGM" => new SLGMRecord(),
+            "SOUN" => new SOUNRecord(),
+            "SPEL" => new SPELRecord(),
+            "STAT" => new STATRecord(),
+            "TES4" => new TES4Record(),
+            "TREE" => new TREERecord(),
+            "WATR" => new WATRRecord(),
+            "WEAP" => new WEAPRecord(),
+            "WRLD" => new WRLDRecord(),
+            "WTHR" => new WTHRRecord(),
 
-            return new Record();
-        }
+            // We didn't find a record matching the name, so we just
+            // add a blank record.
+			_ => new Record(),
+		};
+
+        public static Record GetRecordById(string formid)
+		{
+            // Search through all the records to see if we have found
+            // one with the supplied form id.
+            var foundRecords = from record in All 
+                               where record.FormId == formid 
+                               select record;
+
+            // Check if the enumerable actually has a record
+            if (foundRecords.Count() >= 1)
+            {
+                return foundRecords.FirstOrDefault();
+            }
+            else
+                return null;
+		}
     }
 }
