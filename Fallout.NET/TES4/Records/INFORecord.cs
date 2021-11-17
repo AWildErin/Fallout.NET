@@ -8,12 +8,39 @@ using System.Linq;
 
 namespace Fallout.NET.TES4.Records
 {
+    /// <summary>
+    /// Dialog Response
+    /// </summary>
     public class INFORecord : Record
     {
+        /// <summary>
+        /// Response Data
+        /// </summary>
+        /// <remarks>Holds <see cref="DialogType"/>, <see cref="NextSpeaker"/> and <see cref="INFOFlags"/></remarks>
         public INFO_DATASubRecord DATA { get; private set; }
+
+        /// <summary>
+        /// Quest
+        /// </summary>
+        /// <remarks>FormID of a <see cref="QUSTRecord"/></remarks>
         public FormID QSTI { get; private set; }
+
+        /// <summary>
+        /// Responces
+        /// </summary>
+        /// <remarks>Holds info for the responses</remarks>
         public INFO_ResponseSubRecordCollection Responses { get; private set; }
+
+        /// <summary>
+        /// Choice
+        /// </summary>
+        /// <remarks> List of FormIDs for <see cref="DIALRecord"/></remarks>
         public List<FormID> TCLT { get; private set; } = new List<FormID>();
+
+        /// <summary>
+        /// Link from topic
+        /// </summary>
+        /// <remarks> List of FormIDs for <see cref="DIALRecord"/></remarks>
         public List<FormID> TCLF { get; private set; } = new List<FormID>();
 
 

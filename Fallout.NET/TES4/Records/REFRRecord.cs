@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Fallout.NET.TES4.Records
 {
+    /// <summary>
+    /// Placed Object
+    /// </summary>
     public class REFRRecord : Record
     {
         public STRSubRecord EDID { get; private set; }

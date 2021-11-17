@@ -2,6 +2,10 @@ using Fallout.NET.Core;
 
 namespace Fallout.NET.TES4.Records
 {
+	/// <summary>
+	/// Birthsign
+	/// </summary>
+	/// todo: fill out record
 	public class BSGNRecord : Record
 	{
 		protected override void ExtractSubRecords(BetterReader reader, GameID gameID, uint size)

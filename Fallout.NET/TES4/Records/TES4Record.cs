@@ -2,6 +2,9 @@
 
 namespace Fallout.NET.TES4.Records
 {
+    /// <summary>
+    /// Plugin info
+    /// </summary>
     public class TES4Record : Record
     {
         public class HEDRSubRecord : SubRecord

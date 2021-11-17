@@ -4,27 +4,114 @@ using System.Collections.Generic;
 
 namespace Fallout.NET.TES4.Records
 {
+    /// <summary>
+    /// NPC
+    /// </summary>
 	public class NPC_Record : Record
 	{
+        /// <summary>
+        /// Editor ID
+        /// </summary>
         public STRSubRecord EDID { get; private set; }
-        public STRSubRecord FULL { get; private set; }
-        public STRSubRecord MODL { get; private set; }
-        public OBNDSubRecord OBND { get; private set; }
-        public ACBSSubRecord ACBS { get; private set; }
-        public FormID INAM { get; private set; }
-        public FormID VTCK { get; private set; }
-        public FormID TPLT { get; private set; }
-        public FormID RNAM { get; private set; }
-        public FormID EITM { get; private set; }
-        public FormID SCRI { get; private set; }
-        public FormID CNAM { get; private set; }
-        public FormID HNAM { get; private set; }
-        public FormID ENAM { get; private set; }
-        public FormID ZNAM { get; private set; }
-        public List<FormID> PKID { get; private set; } = new List<FormID>();
-        public List<FormID> PNAM { get; private set; } = new List<FormID>();
-        public List<SNAMSubRecord> SNAM { get; private set; } = new List<SNAMSubRecord>();
 
+        /// <summary>
+        /// Name
+        /// </summary>
+        public STRSubRecord FULL { get; private set; }
+
+        /// <summary>
+        /// Model
+        /// </summary>
+        /// todo: turn this into it's own subrecord with the other stuff https://tes5edit.github.io/fopdoc/Fallout3/Records/Subrecords/Model.html
+        public STRSubRecord MODL { get; private set; }
+
+        /// <summary>
+        /// Object Bounds
+        /// </summary>
+        public OBNDSubRecord OBND { get; private set; }
+
+        /// <summary>
+        /// Configuration
+        /// </summary>
+        public ACBSSubRecord ACBS { get; private set; }
+
+        /// <summary>
+        /// Death Item
+        /// </summary>
+        /// <remarks>FormID of a <see cref="LVLIRecord"/></remarks>
+        public FormID INAM { get; private set; }
+
+        /// <summary>
+        /// Voice
+        /// </summary>
+        /// <remarks>FormID of a <see cref="VTYPRecord"/></remarks>
+        public FormID VTCK { get; private set; }
+
+        /// <summary>
+        /// Template
+        /// </summary>
+        /// <remarks>FormID of a <see cref="NPC_Record"/> or <see cref="LVLNRecord"/></remarks>
+        public FormID TPLT { get; private set; }
+
+        /// <summary>
+        /// Race
+        /// </summary>
+        /// <remarks>FormID of a <see cref="RACERecord"/></remarks>
+        public FormID RNAM { get; private set; }
+
+        /// <summary>
+        /// Unarmed Attack Effect
+        /// </summary>
+        /// <remarks>FormID of an <see cref="ENCHRecord"/> or <see cref="SPELRecord"/></remarks>
+        public FormID EITM { get; private set; }
+
+        /// <summary>
+        /// Script
+        /// </summary>
+        /// <remarks>FormID of a <see cref="SCPTRecord"/></remarks>
+        public FormID SCRI { get; private set; }
+
+        /// <summary>
+        /// Class
+        /// </summary>
+        /// <remarks>FormID of a <see cref="CLASRecord"/></remarks>
+        public FormID CNAM { get; private set; }
+
+        /// <summary>
+        /// Hair
+        /// </summary>
+        /// <remarks>FormID of a <see cref="HAIRRecord"/></remarks>
+        public FormID HNAM { get; private set; }
+
+        /// <summary>
+        /// Eyes
+        /// </summary>
+        /// <remarks>FormID of an <see cref="EYESRecord"/></remarks>
+        public FormID ENAM { get; private set; }
+
+        /// <summary>
+        /// Combat Style
+        /// </summary>
+        /// <remarks>FormID of a <see cref="CSTYRecord"/></remarks>
+        public FormID ZNAM { get; private set; }
+
+        /// <summary>
+        /// Package
+        /// </summary>
+        /// <remarks>List of FormIDs for <see cref="PACKRecord"/></remarks>
+        public List<FormID> PKID { get; private set; } = new List<FormID>();
+
+        /// <summary>
+        /// Head Part
+        /// </summary>
+        /// <remarks>List of FormIDs for <see cref="HDPTRecord"/></remarks>
+        public List<FormID> PNAM { get; private set; } = new List<FormID>();
+
+        /// <summary>
+        /// Faction
+        /// </summary>
+        /// <remarks>List of <see cref="SNAMSubRecord"/></remarks>
+        public List<SNAMSubRecord> SNAM { get; private set; } = new List<SNAMSubRecord>();
 
         protected override void ExtractSubRecords(BetterReader reader, GameID gameID, uint size)
 		{

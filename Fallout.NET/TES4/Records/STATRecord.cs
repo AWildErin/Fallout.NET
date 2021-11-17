@@ -5,6 +5,9 @@ using System;
 
 namespace Fallout.NET.TES4.Records
 {
+    /// <summary>
+    /// Static
+    /// </summary>
 	public class STATRecord : Record
 	{
         public STRSubRecord EDID { get; private set; }

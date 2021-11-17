@@ -5,6 +5,9 @@ using Fallout.NET.TES4.SubRecords.STAT;
 
 namespace Fallout.NET.TES4.Records
 {
+	/// <summary>
+	/// Door
+	/// </summary>
 	public class DOORRecord : Record
 	{
 		/// <summary>
@@ -27,26 +30,31 @@ namespace Fallout.NET.TES4.Records
 		/// <summary>
 		/// Script
 		/// </summary>
+		/// <remarks>FormID of a <see cref="SCPTRecord"/></remarks>
 		public FormID SCRI { get; private set; }
 
 		/// <summary>
 		/// Open Sound
 		/// </summary>
+		/// <remarks>FormID of a <see cref="SOUNRecord"/></remarks>
 		public FormID SNAM { get; private set; }
 
 		/// <summary>
 		/// Close Sound
 		/// </summary>
+		/// <remarks>FormID of a <see cref="SOUNRecord"/></remarks>
 		public FormID ANAM { get; private set; }
 
 		/// <summary>
 		/// Door Flags
 		/// </summary>
+		/// <remarks>Holds <see cref="DOOR_FNAMFlags"/></remarks>
 		public DOOR_FNAMSubRecord FNAM { get; private set; }
 
 		/// <summary>
 		/// Loop Sound
 		/// </summary>
+		/// <remarks>FormID of a <see cref="SOUNRecord"/></remarks>
 		public FormID BNAM { get; private set; }
 
 		protected override void ExtractSubRecords(BetterReader reader, GameID gameID, uint size)

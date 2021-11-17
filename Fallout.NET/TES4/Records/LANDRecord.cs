@@ -5,12 +5,33 @@ using System.Collections.Generic;
 
 namespace Fallout.NET.TES4.Records
 {
+    /// <summary>
+    /// Landscape
+    /// </summary>
+    /// todo: possible rework how this class is.
+    /// todo: missing some parameters
 	public class LANDRecord : Record
 	{
+        /// <summary>
+        /// Unknown
+        /// </summary>
         public BytesSubRecord DATA { get; private set; }
+
+        /// <summary>
+        /// Vertex Normal
+        /// </summary>
         public VNMLorVCLRSubRecord VNML { get; private set; }
+
+        /// <summary>
+        /// Vertex Colour
+        /// </summary>
         public VNMLorVCLRSubRecord VCLR { get; private set; }
+
+        /// <summary>
+        /// Vertex Height Map
+        /// </summary>
         public VHGTSubRecord VHGT { get; private set; }
+
         public List<ATXTorBTXTSubRecord> BTXT { get; private set; } = new List<ATXTorBTXTSubRecord>();
         public List<ATXTorBTXTSubRecord> ATXT { get; private set; } = new List<ATXTorBTXTSubRecord>();
         public List<VTXTSubRecord> VTXT { get; private set; } = new List<VTXTSubRecord>();
