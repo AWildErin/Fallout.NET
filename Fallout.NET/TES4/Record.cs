@@ -51,14 +51,14 @@ namespace Fallout.NET.TES4
         }
 
         public Record()
-		{
+        {
             All.Add(this);
-		}
+        }
 
         ~Record()
-		{
+        {
             All.Remove(this);
-		}
+        }
 
         public virtual void Deserialize(BetterReader reader, string name, GameID gameID)
         {
@@ -126,7 +126,7 @@ namespace Fallout.NET.TES4
         }
 
         public static Record CreateRecord(string name) => name switch
-		{
+        {
             "ACHR" => new ACHRRecord(),
             "ACRE" => new ACRERecord(),
             "ACTI" => new ACTIRecord(),
@@ -194,11 +194,11 @@ namespace Fallout.NET.TES4
 
             // We didn't find a record matching the name, so we just
             // add a blank record.
-			_ => new Record(),
-		};
+            _ => new Record(),
+        };
 
         public static Record GetRecordById(string formid)
-		{
+        {
             // Search through all the records to see if we have found
             // one with the supplied form id.
             var foundRecords = from record in All 
@@ -212,6 +212,6 @@ namespace Fallout.NET.TES4
             }
             else
                 return null;
-		}
+        }
     }
 }
